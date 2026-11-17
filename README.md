@@ -6,4 +6,5 @@ Este repositorio tiene contenido adjunto de:  RPG Manager · Persistencia · Pro
 Realizado por: Juan Daniel Garzon Solaque
 
 Repositorio original: `https://github.com/bearcol/programacionmultinivel.git`
+
 Derechos de autor repositorio original © Francisco Cuellar (github.com/bearcol)
