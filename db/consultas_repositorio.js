@@ -26,10 +26,13 @@ db.personajes.findOne(
 
 // ── 3. ¿Se puede borrar a Thorgar? (eliminar) ────────────────────────
 // combates guarda NOMBRES, no llaves foráneas: nada impide el borrado.
-// >>> SALA B.3 · Llaves foráneas: el caso Thorgar
-// Arma este bloque en el Edificio de la Persistencia (pestaña MongoDB · JS),
-// pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-// <<< FIN SALA B.3
+db.combates.countDocuments({
+  $or: [
+    { atacante: "Thorgar" },
+    { defensor: "Thorgar" },
+    { ganador: "Thorgar" }
+  ]
+});
 // Esta línea SÍ funciona en MongoDB (cuidado: deja combates huérfanos):
 // db.personajes.deleteOne({ id_personaje: 1 });
 
