@@ -18,10 +18,11 @@ db.personajes.findOne(
 
 // ── 2. El inventario de un personaje (listarInventario) ──────────────
 // El inventario es un arreglo embebido: se pide solo ese campo.
-// >>> SALA B.2 · El inventario: JOIN o documento
-// Arma este bloque en el Edificio de la Persistencia (pestaña MongoDB · JS),
-// pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-// <<< FIN SALA B.2
+db.personajes.findOne(
+  { id_personaje: 1 },
+  { _id: 0, nombre: 1, inventario: 1 }
+);
+
 
 // ── 3. ¿Se puede borrar a Thorgar? (eliminar) ────────────────────────
 // combates guarda NOMBRES, no llaves foráneas: nada impide el borrado.

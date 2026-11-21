@@ -17,10 +17,12 @@ SELECT p.id_personaje, p.nombre, c.nombre AS clase,
 
 -- ── 2. El inventario de un personaje (listarInventario) ──────────────
 -- inventario es la tabla intermedia N:M: el nombre del ítem vive en item.
--- >>> SALA B.2 · El inventario: JOIN o documento
--- Arma este bloque en el Edificio de la Persistencia (pestaña MariaDB · SQL),
--- pulsa «Copiar bloque» y pégalo entre estas dos marcas.
--- <<< FIN SALA B.2
+SELECT i.nombre, i.tipo, i.valor, inv.cantidad
+  FROM inventario inv
+  JOIN item i ON inv.id_item = i.id_item
+ WHERE inv.id_personaje = 1
+ ORDER BY i.nombre;
+
 
 -- ── 3. ¿Por qué no se puede borrar a Thorgar? (eliminar) ─────────────
 -- combate apunta a personaje con tres llaves foráneas y sin CASCADE.
