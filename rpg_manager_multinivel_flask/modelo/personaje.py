@@ -92,10 +92,15 @@ def crear_personaje(clase, nombre, nivel=1, vida=100, ataque=10, oro=Decimal("0"
 
 
 
-# >>> SALA 1.4 · Item: el ítem del inventario
-# Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-# pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-# <<< FIN SALA 1.4
+class Item:
+    """Un ítem dentro del inventario de un personaje."""
+
+    def __init__(self, nombre, tipo, valor, cantidad=1):
+        self.nombre = nombre
+        self.tipo = tipo
+        self.valor = valor
+        self.cantidad = cantidad
+
 
     def a_dict(self):
         return {"nombre": self.nombre, "tipo": self.tipo, "valor": self.valor, "cantidad": self.cantidad}
