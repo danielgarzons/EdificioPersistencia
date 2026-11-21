@@ -14,10 +14,14 @@ public abstract class Personaje {
     private int ataque;
     private BigDecimal oro;      // dinero: BigDecimal, nunca double (redondeo)
 
-    // >>> SALA 1.1 · Personaje: la clase base
-    // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-    // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-    // <<< FIN SALA 1.1
+        protected Personaje(Integer id, String nombre, int nivel, int vida, int ataque, BigDecimal oro) {
+        this.id = id;
+        this.nombre = nombre;
+        this.nivel = nivel;
+        this.vida = vida;
+        this.ataque = ataque;
+        this.oro = oro;
+
     }
 
     /** "Guerrero", "Mago" o "Arquero": lo define cada subclase. */
