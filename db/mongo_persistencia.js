@@ -22,10 +22,14 @@ db = db.getSiblingDB("rpg_manager");
 // Todo va dentro de un bloque para poder pegarlo varias veces en la misma sesión
 (function () {
   // 1. Precisión del Arquero: de fracción (0.72) a entero de 0 a 100 (72)
-  // >>> SALA B.4 · Preparar la persistencia
-  // Arma este bloque en el Edificio de la Persistencia (pestaña MongoDB · JS),
-  // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-  // <<< FIN SALA B.4
+    const arqueros = db.personajes.find({ precision: { $lt: 1 } }).toArray();
+  arqueros.forEach(doc => {
+    db.personajes.updateOne(
+      { _id: doc._id },
+      { $set: { precision: Math.round(doc.precision * 100) } }
+    );
+  });
+
   print("Arqueros ajustados: " + arqueros.length);
 
   // 2. Id numérico para cada personaje (como el AUTO_INCREMENT de MariaDB)

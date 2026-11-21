@@ -13,10 +13,15 @@
 -- ─────────────────────────────────────────────────────────────────────
 USE rpg_manager;
 
--- >>> SALA B.4 · Preparar la persistencia
--- Arma este bloque en el Edificio de la Persistencia (pestaña MariaDB · SQL),
--- pulsa «Copiar bloque» y pégalo entre estas dos marcas.
--- <<< FIN SALA B.4
+ALTER TABLE personaje
+  ADD COLUMN IF NOT EXISTS mana           INT NULL CHECK (mana >= 0),
+  ADD COLUMN IF NOT EXISTS precision_tiro INT NULL CHECK (precision_tiro BETWEEN 0 AND 100);
+
+-- Valores iniciales para los personajes que ya existían
+UPDATE personaje p JOIN clase c ON p.id_clase = c.id_clase
+   SET p.mana = 100
+ WHERE c.nombre = 'Mago' AND p.mana IS NULL;
+
 
 UPDATE personaje p JOIN clase c ON p.id_clase = c.id_clase
    SET p.precision_tiro = 70
