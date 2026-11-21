@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RPG Manager · Persistencia · Proyecto esqueleto
 
 Este repositorio trae el RPG Manager casi completo, en **Java (Javalin)** y en **Python (Flask)**.
@@ -61,3 +62,15 @@ Para ver cuántos te faltan, busca `>>> SALA` en todo el proyecto (`grep -rn ">>
 | A.1 | Recorrido completo: Kaelen | `rpg_manager_multinivel_javalin/src/main/java/gestionrpg/RecorridoPersistencia.java` | `rpg_manager_multinivel_flask/recorrido.py` |
 
 La guía de la actividad explica los pasos, el pasaporte, el trabajo escrito y la entrega.
+=======
+# Edificio Persistencia - Programación Multinivel
+Parcial Final | UD 2026-III
+Este repositorio tiene contenido adjunto de:  RPG Manager · Persistencia · Proyecto esqueleto
+
+## Version completa en Java **(Javalin)** y en Python **(Flask)**.
+Realizado por: Juan Daniel Garzon Solaque
+
+Repositorio original: `https://github.com/bearcol/programacionmultinivel.git`
+
+Derechos de autor repositorio original © Francisco Cuellar (github.com/bearcol)
+>>>>>>> 641fe9934c17ab6b6f156abb5dd9b8dd83d27cc2
