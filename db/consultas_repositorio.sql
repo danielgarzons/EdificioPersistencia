@@ -8,10 +8,12 @@ USE rpg_manager;
 
 -- ── 1. Leer un personaje (buscarPorId) ───────────────────────────────
 -- La clase no está como texto en personaje: llega desde la tabla clase.
--- >>> SALA B.1 · Leer un personaje
--- Arma este bloque en el Edificio de la Persistencia (pestaña MariaDB · SQL),
--- pulsa «Copiar bloque» y pégalo entre estas dos marcas.
--- <<< FIN SALA B.1
+SELECT p.id_personaje, p.nombre, c.nombre AS clase,
+       p.nivel, p.vida, p.ataque, p.oro, p.mana, p.precision_tiro
+  FROM personaje p
+  JOIN clase c ON p.id_clase = c.id_clase
+ WHERE p.id_personaje = 2;
+
 
 -- ── 2. El inventario de un personaje (listarInventario) ──────────────
 -- inventario es la tabla intermedia N:M: el nombre del ítem vive en item.

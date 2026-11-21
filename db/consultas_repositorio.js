@@ -6,12 +6,15 @@
 // =====================================================================
 db = db.getSiblingDB("rpg_manager");
 
+// Archivo: db/consultas_repositorio.js (consulta 1)
+
 // ── 1. Leer un personaje (buscarPorId) ───────────────────────────────
 // La clase viaja dentro del documento: no hace falta ningún JOIN.
-// >>> SALA B.1 · Leer un personaje
-// Arma este bloque en el Edificio de la Persistencia (pestaña MongoDB · JS),
-// pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-// <<< FIN SALA B.1
+db.personajes.findOne(
+  { id_personaje: 2 },
+  { _id: 0, inventario: 0, misiones: 0 }
+);
+
 
 // ── 2. El inventario de un personaje (listarInventario) ──────────────
 // El inventario es un arreglo embebido: se pide solo ese campo.
