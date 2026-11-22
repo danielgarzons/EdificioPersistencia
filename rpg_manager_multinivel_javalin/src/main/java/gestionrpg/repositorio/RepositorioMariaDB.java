@@ -111,10 +111,19 @@ public class RepositorioMariaDB implements PersonajeRepository {
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = conectar();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // >>> SALA 2.4 · MariaDB: guardar con INSERT
-            // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-            // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-            // <<< FIN SALA 2.4
+            ponerCampos(ps, p);
+            ps.executeUpdate();          // JDBC hace commit automático (autocommit)
+            try (ResultSet claves = ps.getGeneratedKeys()) {
+                if (claves.next()) {
+                    p.setId(claves.getInt(1));    // id generado por AUTO_INCREMENT
+                }
+            }
+            return p;
+        } catch (SQLException e) {
+            if (e.getErrorCode() == ERROR_DUPLICADO) {
+                throw new DatoDuplicadoException(p.getNombre(), e);
+            }
+            throw new AccesoDatosException("Error guardando personaje", e);
         }
     }
 
