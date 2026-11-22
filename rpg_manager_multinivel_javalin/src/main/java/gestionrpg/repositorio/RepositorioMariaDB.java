@@ -69,10 +69,20 @@ public class RepositorioMariaDB implements PersonajeRepository {
 
     private List<Personaje> consultar(String sql, Object... parametros) {
         List<Personaje> resultado = new ArrayList<>();
-        // >>> SALA 2.3 · MariaDB: leer un personaje
-        // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-        // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        // <<< FIN SALA 2.3
+        try (Connection con = conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            for (int i = 0; i < parametros.length; i++) {
+                ps.setObject(i + 1, parametros[i]);
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    resultado.add(filaAPersonaje(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new AccesoDatosException("Error consultando personajes", e);
+        }
+        return resultado;
     }
 
     /** Pone en el PreparedStatement los campos que comparten INSERT y UPDATE (posiciones 1 a 8). */
