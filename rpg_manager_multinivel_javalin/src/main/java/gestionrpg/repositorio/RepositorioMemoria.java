@@ -1,11 +1,12 @@
 package gestionrpg.repositorio;
 
-import gestionrpg.modelo.Item;
-import gestionrpg.modelo.Personaje;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import gestionrpg.modelo.Item;
+import gestionrpg.modelo.Personaje;
 
 /**
  * Implementación en memoria: un HashMap cuya clave es el id.
@@ -32,10 +33,15 @@ public class RepositorioMemoria implements PersonajeRepository {
     @Override
     public Personaje guardar(Personaje p) {
         // Misma regla que el UNIQUE de MariaDB sobre el nombre
-        // >>> SALA 2.2 · RepositorioMemoria
-        // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-        // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        // <<< FIN SALA 2.2
+        for (Personaje existente : datos.values()) {
+            if (existente.getNombre().equals(p.getNombre())) {     // equals, no ==
+                throw new DatoDuplicadoException(p.getNombre(), null);
+            }
+        }
+        p.setId(siguienteId++);
+        datos.put(p.getId(), p);
+        inventarios.put(p.getId(), new ArrayList<>());
+        return p;
     }
 
     @Override
