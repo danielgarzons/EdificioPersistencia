@@ -58,10 +58,14 @@ def crear_controlador(service, motor):
 
     @bp.post("/personajes/<int:id>/inventario")
     def agregar_item(id):
-        # >>> SALA 4.3 · Las rutas del inventario
-        # Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-        # pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        # <<< FIN SALA 4.3
+        try:
+            service.agregar_item(id, request.form.get("item"), request.form.get("cantidad", 1))
+        except PersonajeNoEncontradoException as e:
+            return render_template("error.html", mensaje=str(e)), 404
+        except ValidacionException as e:
+            return redirect(url_for("personajes.detalle", id=id, error=str(e)))
+        return redirect(url_for("personajes.detalle", id=id))
+
 
     @bp.post("/personajes/<int:id>/inventario/quitar")
     def quitar_item(id):
