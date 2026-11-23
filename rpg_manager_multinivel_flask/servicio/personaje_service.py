@@ -49,10 +49,18 @@ class PersonajeService:
     # ---------- inventario ----------
 
     def agregar_item(self, id, nombre_item, cantidad=1):
-        # >>> SALA 3.4 · Agregar ítem: reglas del negocio
-        # Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-        # pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        # <<< FIN SALA 3.4
+        self.obtener(id)
+        cantidad = self._entero(cantidad, "cantidad")
+        if not 1 <= cantidad <= 99:
+            raise ValidacionException("La cantidad debe estar entre 1 y 99")
+        nombres = []
+        for item in self._repositorio.listar_catalogo():
+            nombres.append(item.nombre)
+        if nombre_item not in nombres:
+            raise ValidacionException(f"No existe el ítem {nombre_item}")
+        self._repositorio.agregar_item(id, nombre_item, cantidad)
+        return self._repositorio.listar_inventario(id)
+
 
     def quitar_item(self, id, nombre_item):
         personaje = self.obtener(id)
