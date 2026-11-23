@@ -92,10 +92,19 @@ class RepositorioMongo(PersonajeRepository):
         return resultado
 
     def guardar(self, personaje):
-        # >>> SALA 2.6 · MongoDB: guardar con contador
-        # Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-        # pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        # <<< FIN SALA 2.6
+        documento = self._campos_de(personaje)
+        documento["inventario"] = []
+        documento["misiones"] = []
+        if self._personajes.find_one({"nombre": personaje.nombre}) is not None:
+            raise DatoDuplicadoException(personaje.nombre)
+        documento["id_personaje"] = self._siguiente_id()
+        try:
+            self._personajes.insert_one(documento)
+        except DuplicateKeyError as error:
+            raise DatoDuplicadoException(personaje.nombre) from error
+        personaje.id = documento["id_personaje"]
+        return personaje
+
 
     def buscar_por_id(self, id):
         doc = self._personajes.find_one({"id_personaje": id})
