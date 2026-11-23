@@ -3,12 +3,12 @@ package gestionrpg.repositorio;
 import java.util.Properties;
 
 /**
- * Selector: lee la configuración y crea la implementación del contrato.
+ * Selector: Lee la configuración y crea la implementación del contrato.
  * Es el único lugar del proyecto que sabe qué motor hay detrás.
  */
 public final class RepositoryFactory {
 
-    private RepositoryFactory() { }
+    private RepositoryFactory() {}
 
     public static PersonajeRepository crear(Properties cfg) {
         String tipo = cfg.getProperty("repositorio", "").trim().toLowerCase();
