@@ -15,10 +15,19 @@ import java.util.List;
  * Recibe el repositorio por el constructor y solo conoce el contrato
  * PersonajeRepository: no sabe si detrás hay memoria, MariaDB o MongoDB.
  */
-// >>> SALA 3.1 · Inyección por constructor
-// Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-// pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-// <<< FIN SALA 3.1
+public class PersonajeService {
+
+    private final PersonajeRepository repositorio;
+
+    public PersonajeService(PersonajeRepository repositorio) {
+        this.repositorio = repositorio;
+    }
+
+    // ---------- consultas ----------
+
+    public List<Personaje> listar() {
+        return repositorio.listarTodos();
+
     }
 
     public List<Personaje> listarPorClase(String clase) {

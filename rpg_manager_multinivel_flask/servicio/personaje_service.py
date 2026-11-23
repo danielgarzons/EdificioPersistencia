@@ -17,10 +17,16 @@ class PersonajeNoEncontradoException(Exception):
     """No existe un personaje con ese id."""
 
 
-# >>> SALA 3.1 · Inyección por constructor
-# Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-# pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-# <<< FIN SALA 3.1
+class PersonajeService:
+
+    def __init__(self, repositorio):
+        self._repositorio = repositorio
+
+    # ---------- consultas ----------
+
+    def listar(self):
+        return self._repositorio.listar_todos()
+
 
     def listar_por_clase(self, clase):
         self._validar_clase(clase)
