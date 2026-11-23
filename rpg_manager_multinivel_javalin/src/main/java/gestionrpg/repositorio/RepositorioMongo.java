@@ -135,7 +135,7 @@ public class RepositorioMongo implements PersonajeRepository {
 
     @Override
     public Personaje guardar(Personaje p) {
-               if (personajes.find(eq("nombre", p.getNombre())).first() != null) {
+        if (personajes.find(eq("nombre", p.getNombre())).first() != null) {
             throw new DatoDuplicadoException(p.getNombre(), null);
         }
         Document documento = camposDe(p)
@@ -216,14 +216,30 @@ public class RepositorioMongo implements PersonajeRepository {
         return catalogo;
     }
 
+   // Archivo: rpg_manager_multinivel_javalin/src/main/java/gestionrpg/repositorio/RepositorioMongo.java (fragmento)
+
     @Override
     public boolean agregarItem(int idPersonaje, String nombreItem, int cantidad) {
         // 1. Si ya lo tiene: $inc sobre ese elemento del arreglo ($ = el que cumplió el filtro)
-        // >>> SALA 2.8 · Inventario: agregar un ítem
-        // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-        // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        // <<< FIN SALA 2.8
+        long encontrados = personajes.updateOne(
+                and(eq("id_personaje", idPersonaje), eq("inventario.item", nombreItem)),
+                Updates.inc("inventario.$.cantidad", cantidad)).getMatchedCount();
+        if (encontrados > 0) {
+            return true;
+        }
+        // 2. Si no lo tiene: se copia del catálogo y se agrega al arreglo con $push
+        Document delCatalogo = items.find(eq("nombre", nombreItem)).first();
+        if (delCatalogo == null) {
+            return false;
+        }
+        Document nuevo = new Document("item", delCatalogo.getString("nombre"))
+                .append("tipo", delCatalogo.getString("tipo"))
+                .append("valor", numero(delCatalogo.get("valor"), 0))
+                .append("cantidad", cantidad);
+        return personajes.updateOne(eq("id_personaje", idPersonaje),
+                Updates.push("inventario", nuevo)).getMatchedCount() > 0;
     }
+
 
     @Override
     public boolean quitarItem(int idPersonaje, String nombreItem) {
