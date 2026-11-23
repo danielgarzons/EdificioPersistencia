@@ -81,10 +81,12 @@ class PersonajeService:
         if oro < 0:
             raise ValidacionException("El oro no puede ser negativo")
 
-        # >>> SALA 3.3 · Crear: validar y traducir
-        # Arma este bloque en el Edificio de la Persistencia (pestaña Python),
-        # pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        # <<< FIN SALA 3.3
+        personaje = crear_personaje(clase, nombre, nivel, vida, ataque, oro)
+        try:
+            return self._repositorio.guardar(personaje)
+        except DatoDuplicadoException:
+            raise ValidacionException(f"Ya existe un personaje llamado {nombre}")
+
 
     def actualizar_vida(self, id, vida):
         vida = self._entero(vida, "vida")

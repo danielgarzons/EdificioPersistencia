@@ -92,10 +92,13 @@ public class PersonajeService {
         if (oro == null || oro.signum() < 0) {
             throw new ValidacionException("El oro no puede ser negativo");
         }
-        // >>> SALA 3.3 · Crear: validar y traducir
-        // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-        // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        // <<< FIN SALA 3.3
+        Personaje p = FabricaPersonajes.crear(clase, null, nombre, nivel, vida, ataque,
+                oro.setScale(2, RoundingMode.HALF_UP), null, null);
+        try {
+            return repositorio.guardar(p);
+        } catch (DatoDuplicadoException e) {
+            throw new ValidacionException("Ya existe un personaje llamado " + nombre);
+
         }
     }
 
