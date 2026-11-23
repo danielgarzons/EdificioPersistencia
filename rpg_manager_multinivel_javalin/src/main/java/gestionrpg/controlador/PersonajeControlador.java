@@ -119,10 +119,15 @@ public class PersonajeControlador {
                 datos.put(campo, valor);
             }
         }
-        // >>> SALA 4.2 · La ruta POST crear
-        // Arma este bloque en el Edificio de la Persistencia (pestaña Java),
-        // pulsa «Copiar bloque» y pégalo entre estas dos marcas.
-        // <<< FIN SALA 4.2
+        try {
+            service.crear(datos.get("nombre"), datos.get("clase"),
+                    entero(datos.get("nivel"), "nivel", 1), entero(datos.get("vida"), "vida", 100),
+                    entero(datos.get("ataque"), "ataque", 10), dinero(datos.get("oro")));
+        } catch (ValidacionException e) {
+            ctx.status(400).html(PersonajeVista.formulario(datos, e.getMessage(), motor));
+            return;
+        }
+        ctx.redirect("/personajes");
     }
 
     private void detalle(Context ctx) {
